@@ -11,12 +11,15 @@
         <option value="$PROJECT_DIR$/01_operazione_2/pom.xml" />
         <option value="$PROJECT_DIR$/01_operazioni_2/pom.xml" />
         <option value="$PROJECT_DIR$/01_operazioni_3/pom.xml" />
+        <option value="$PROJECT_DIR$/06_JWT/pom.xml" />
+        <option value="$PROJECT_DIR$/Esame/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/01_operazione_2/pom.xml" />
         <option value="$PROJECT_DIR$/01_operazioni_2.0/pom.xml" />
+        <option value="$PROJECT_DIR$/06_JWT/pom.xml" />
       </set>
     </option>
   </component>
