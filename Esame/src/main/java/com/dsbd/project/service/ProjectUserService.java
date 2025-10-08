@@ -77,7 +77,6 @@ public class ProjectUserService {
         }
     }
 
-
     public AuthResponse refresh(User user) {
         User u = repository.findByEmail(user.getEmail());
         if (u != null) {
