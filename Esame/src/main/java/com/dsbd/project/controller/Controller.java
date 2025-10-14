@@ -8,15 +8,19 @@
     import com.dsbd.project.security.JwtUtils;
     import com.dsbd.project.service.ProjectUserService;
     import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.format.annotation.DateTimeFormat;
     import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.security.core.Authentication;
     import org.springframework.web.bind.annotation.*;
 
+    import java.time.LocalDate;
+    import java.time.LocalDateTime;
     import java.util.ArrayList;
     import java.util.HashMap;
     import java.util.List;
     import java.util.Map;
+    import java.util.stream.Collectors;
 
     @org.springframework.stereotype.Controller
     @RequestMapping(path = "/user")
@@ -117,13 +121,47 @@
         }
 
         //GET http://localhost:8082/user/trips
-        @GetMapping("/trips")
+        /*@GetMapping("/trips")
         public ResponseEntity<List<Trip>> getAllTrips() {
             Iterable<Trip> tripsIterable = tripRepository.findAll();
             List<Trip> trips = new ArrayList<>();
             tripsIterable.forEach(trips::add);
             return ResponseEntity.ok(trips);
+        }*/
+        @GetMapping("/trips")
+        public ResponseEntity<List<Trip>> getAllTrips(
+                @RequestParam(required = false) String origin,
+                @RequestParam(required = false) String destination,
+                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+
+            // Prendo tutte le corse
+            List<Trip> trips = (List<Trip>) tripRepository.findAll();
+
+            // Applico i filtri opzionali
+            if (origin != null && !origin.isEmpty()) {
+                trips = trips.stream()
+                        .filter(trip -> trip.getOrigin().equalsIgnoreCase(origin))
+                        .toList();
+            }
+
+            if (destination != null && !destination.isEmpty()) {
+                trips = trips.stream()
+                        .filter(trip -> trip.getDestination().equalsIgnoreCase(destination))
+                        .toList();
+            }
+
+            if (date != null) {
+                LocalDateTime startOfDay = date.atStartOfDay();
+                LocalDateTime endOfDay = date.atTime(23, 59, 59);
+                trips = trips.stream()
+                        .filter(trip -> !trip.getDepartureTime().isBefore(startOfDay)
+                                && !trip.getDepartureTime().isAfter(endOfDay))
+                        .toList();
+            }
+
+            return ResponseEntity.ok(trips);
         }
+
 
         //GET http://localhost:8082/user/trip/{tripid}/buy + JWT
         @PostMapping("/trip/{tripId}/buy")
