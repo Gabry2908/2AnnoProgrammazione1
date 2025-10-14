@@ -193,7 +193,7 @@
                 double tripPrice = trip.getPrice().doubleValue();
 
                 if (userCredit < tripPrice) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                             .body("Credito insufficiente per acquistare la corsa");
                 }
 
