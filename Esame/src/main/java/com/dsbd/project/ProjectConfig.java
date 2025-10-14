@@ -43,7 +43,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/re-auth/**").permitAll() // Consenti a tutti l'accesso all'endpoint /user/reAuth
                 .antMatchers("/user/me").permitAll() // Consenti a tutti l'accesso all'endpoint /user/me
                 .antMatchers("/user/trips").permitAll()
-                .antMatchers("/trip/create").hasAuthority("ADMIN")
+                .antMatchers("/user/trip/create").hasAuthority("ADMIN")
                 .anyRequest().authenticated() // Tutte le altre richieste devono essere autenticate
                 .and()
                 .csrf().disable(); // Nel caso di REST API stateless, la protezione Cross-Site-Request-Forgery non serve
